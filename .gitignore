@@ -1,3 +1,7 @@
+.vscode/
+node_modules/
+svelte-init.md
+
 .sass-cache/
 *.css.map
 *.sass.map
