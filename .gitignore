@@ -1,3 +1,5 @@
+public/build
+
 .vscode/
 node_modules/
 svelte-init.md
