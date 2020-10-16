@@ -1,3 +1,71 @@
+<!-- Simple form to create game objects -->
+<script lang="ts">
+import type { Game } from './types/Game';
+import { users } from './types/Game';
+import { writable } from 'svelte/store';
+import PillBottle from './PillBottle.svelte';
+
+const prosStore = writable(new Set<string>());
+const consStore = writable(new Set<string>());
+const videosStore = writable(new Set<string>());
+
+let title: string;
+let imageUrl: string;
+let summary: string;
+let storeUrl: string;
+let owners: Game['owners'] = [];
+
+let combined: Game;
+$: combined = {
+  title: title?.trim() || undefined,
+  imageUrl: imageUrl?.trim() || undefined,
+  summary: summary?.trim() || undefined,
+  pros: $prosStore.size ? Array.from($prosStore) : undefined,
+  cons: $consStore.size ? Array.from($consStore) : undefined,
+  videos: $videosStore.size ? Array.from($videosStore) : undefined,
+  storeUrl: storeUrl?.trim() || undefined,
+  owners: owners.length ? owners : undefined,
+};
+
+const LOCAL_STORAGE_KEY = 'wip';
+let saved = false;
+
+const autosave: (() => void) & {
+  timeout?: ReturnType<typeof setTimeout>;
+} = () => {
+  if (autosave.timeout) clearTimeout(autosave.timeout);
+  autosave.timeout = setTimeout(save, 1000);
+};
+
+function save() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(combined));
+  saved = true;
+}
+
+function restore() {
+  const json: Game = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  title = json.title;
+  imageUrl = json.imageUrl;
+  summary = json.summary;
+  prosStore.set(new Set<string>(json.pros));
+  consStore.set(new Set<string>(json.cons));
+  videosStore.set(new Set<string>(json.videos));
+  storeUrl = json.storeUrl;
+  owners = json.owners || [];
+}
+
+function clear() {
+  title = undefined;
+  imageUrl = undefined;
+  summary = undefined;
+  prosStore.set(new Set<string>());
+  consStore.set(new Set<string>());
+  videosStore.set(new Set<string>());
+  storeUrl = undefined;
+  owners = [];
+}
+</script>
+
 <style lang="scss">
 @import './styles/variables';
 
@@ -72,74 +140,6 @@ textarea {
   color: $svelte-orange;
 }
 </style>
-
-<!-- Simple form to create game objects -->
-<script lang="ts">
-import type { Game } from './types/Game';
-import { users } from './types/Game';
-import { writable } from 'svelte/store';
-import PillBottle from './PillBottle.svelte';
-
-const prosStore = writable(new Set<string>());
-const consStore = writable(new Set<string>());
-const videosStore = writable(new Set<string>());
-
-let title: string;
-let imageUrl: string;
-let summary: string;
-let storeUrl: string;
-let owners: Array<typeof users> = [];
-
-let combined: Game;
-$: combined = {
-  title: title?.trim() || undefined,
-  imageUrl: imageUrl?.trim() || undefined,
-  summary: summary?.trim() || undefined,
-  pros: $prosStore.size ? Array.from($prosStore) : undefined,
-  cons: $consStore.size ? Array.from($consStore) : undefined,
-  videos: $videosStore.size ? Array.from($videosStore) : undefined,
-  storeUrl: storeUrl?.trim() || undefined,
-  owners: owners.length ? owners : undefined,
-};
-
-const LOCAL_STORAGE_KEY = 'wip';
-let saved = false;
-
-const autosave: (() => void) & {
-  timeout?: ReturnType<typeof setTimeout>;
-} = () => {
-  if (autosave.timeout) clearTimeout(autosave.timeout);
-  autosave.timeout = setTimeout(save, 1000);
-};
-
-function save() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(combined));
-  saved = true;
-}
-
-function restore() {
-  const json: Game = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  title = json.title;
-  imageUrl = json.imageUrl;
-  summary = json.summary;
-  prosStore.set(new Set<string>(json.pros));
-  consStore.set(new Set<string>(json.cons));
-  videosStore.set(new Set<string>(json.videos));
-  storeUrl = json.storeUrl;
-  owners = json.owners || [];
-}
-
-function clear() {
-  title = undefined;
-  imageUrl = undefined;
-  summary = undefined;
-  prosStore.set(new Set<string>());
-  consStore.set(new Set<string>());
-  videosStore.set(new Set<string>());
-  storeUrl = undefined;
-  owners = [];
-}
-</script>
 
 <svelte:body on:change="{autosave}" />
 

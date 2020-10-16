@@ -1,0 +1,289 @@
+@import './styles/mixins';
+
+@keyframes glow {
+  from {
+    filter: opacity(1);
+  }
+
+  to {
+    filter: opacity(0.5);
+  }
+}
+
+$body-bg-color: #292929;
+$nav-gutter: 4rem;
+
+%scroll-panel {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+:global(body) {
+  background-color: $body-bg-color;
+  color: white;
+  padding: 0;
+}
+
+main {
+  display: flex;
+}
+
+aside {
+  background-image: linear-gradient(to left, #111 0%, #222 10%, #333 100%);
+  flex: 3 2;
+  font-size: 0;
+  max-width: 480px;
+  padding: 0 1rem;
+  padding-right: $nav-gutter + 1rem;
+  @extend %scroll-panel;
+  @extend %hide-scrollbar;
+
+  details {
+    background-color: #505050;
+    font-size: 1rem;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    summary {
+      cursor: pointer;
+      outline: none;
+
+      .subtle {
+        filter: opacity(0.6);
+      }
+    }
+
+    fieldset {
+      border-color: #999;
+    }
+
+    .user-filter {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      border-radius: 1rem;
+      flex: 0 1;
+      margin: 0.5rem 0;
+      max-width: 460px;
+      overflow: hidden;
+      position: relative;
+      transition: left 333ms, top 333ms;
+      left: 0;
+      top: 0;
+
+      &.active {
+        left: $nav-gutter;
+      }
+
+      &:hover,
+      &:active {
+        &::before {
+          content: '';
+          animation: glow 1s ease-in-out infinite alternate;
+          background-image: radial-gradient(ellipse at center, transparent 50%, #fff);
+          pointer-events: none;
+          position: absolute;
+          @include trbl(0);
+        }
+      }
+    }
+
+    button {
+      background-color: black;
+      padding: 0;
+      text-align: left;
+      @include square(100%);
+
+      img {
+        max-height: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+article {
+  --max-column-width: 50ch;
+
+  align-self: flex-start;
+  color: white;
+  flex: 4;
+  font-size: 1.25rem;
+  line-height: 2;
+  padding-left: 4rem;
+  padding-right: 2rem;
+  padding-bottom: 4rem;
+  @extend %scroll-panel;
+
+  h2 {
+    font: 3rem/1.2 'Roboto Slab', Georgia, serif;
+    letter-spacing: 0.025em;
+    font-kerning: normal;
+  }
+
+  .owners :global(span + span) {
+    margin-left: 1em;
+  }
+
+  fieldset {
+    $translucent-gray: rgba(gray, 0.333);
+
+    border-color: $translucent-gray;
+    box-shadow: -1px -1px 0 0.5px black, inset -1px -1px 0 0.5px black;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1ch;
+    margin-top: 1rem;
+    max-width: var(--max-column-width);
+
+    legend {
+      background-color: $body-bg-color;
+      color: #606060;
+      text-shadow: -1px -1px 0 black;
+      line-height: 1;
+    }
+
+    .tag {
+      background-color: gray;
+      border-radius: 5px;
+      font-size: smaller;
+      padding: 0 0.333em;
+    }
+  }
+
+  :global(p) {
+    max-width: var(--max-column-width);
+    word-spacing: 0.2em;
+
+    + :global(p) {
+      margin-top: 2em;
+    }
+  }
+
+  :global(a) {
+    color: #69c;
+  }
+
+  :global(kbd) {
+    border: 1px solid gray;
+    background-color: #222;
+    color: orange;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0 0.2em;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    padding: 3rem 0;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :global(body) {
+    @include hide-scrollbar;
+  }
+
+  main {
+    align-items: stretch;
+    flex-direction: column;
+
+    aside,
+    article {
+      flex: auto;
+    }
+
+    aside {
+      background-image: linear-gradient($body-bg-color, $body-bg-color);
+      max-width: initial;
+      padding: 0;
+      padding-bottom: $nav-gutter / 4;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+
+      height: auto;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      &::before,
+      &::after {
+        content: '';
+        display: inline-block;
+        background-image: linear-gradient(to right, $body-bg-color 10%, transparent);
+        width: 4rem;
+        height: 215px;
+        pointer-events: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1;
+      }
+
+      &::after {
+        background-image: linear-gradient(to left, $body-bg-color 10%, transparent);
+        right: 0;
+        left: auto;
+      }
+
+      .filters {
+        left: 0;
+
+        summary {
+          padding: 0.5em 0;
+        }
+      }
+
+      ul {
+        flex-direction: row;
+        margin-top: 0.5rem;
+
+        li {
+          flex: 0 0 230px;
+          max-height: 215px / 2 * 1;
+          margin: 0 0.5rem;
+
+          &.active {
+            left: initial;
+            top: $nav-gutter / 4;
+          }
+        }
+      }
+    }
+
+    article {
+      --max-column-width: auto;
+
+      height: auto;
+      overflow: auto;
+      padding-right: 3em;
+      padding-left: 3em;
+    }
+  }
+}
+
+@media screen and (max-width: 440px) {
+  article .owners :global(span) {
+    display: list-item;
+    list-style-type: none;
+
+    :global(+ span) {
+      margin-left: 0;
+    }
+  }
+}

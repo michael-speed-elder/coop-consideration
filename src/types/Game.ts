@@ -8,5 +8,5 @@ export interface Game {
   cons?: string[];
   videos?: string[];
   storeUrl: string;
-  owners?: Array<typeof users>;
+  owners?: typeof users[number][];
 }

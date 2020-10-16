@@ -1,0 +1,37 @@
+@mixin trbl($position) {
+  top: $position;
+  right: $position;
+  bottom: $position;
+  left: $position;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size, $size);
+}
+
+%hide-scrollbar {
+  overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // Internet Explorer 10+
+
+  &::-webkit-scrollbar {
+    // Webkit
+    @include square(0);
+  }
+}
+
+@mixin hide-scrollbar {
+  overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // Internet Explorer 10+
+
+  &::-webkit-scrollbar {
+    // Webkit
+    @include square(0);
+  }
+}
