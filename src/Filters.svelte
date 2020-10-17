@@ -61,14 +61,6 @@ details {
       margin-left: 1em;
     }
   }
-
-  .tag-filter {
-    display: flex;
-
-    label + label {
-      margin-top: 1em;
-    }
-  }
 }
 
 @media screen and (max-width: 800px) {
@@ -108,7 +100,7 @@ details {
     {/each}
   </fieldset>
 
-  <fieldset class="tag-filter">
+  <fieldset>
     <legend>sort</legend>
 
     <label>

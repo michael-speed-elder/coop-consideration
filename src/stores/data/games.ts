@@ -184,7 +184,7 @@ const data: Game[] = [
     imageUrl:
       'https://cdn.cloudflare.steamstatic.com/steam/apps/604240/header.jpg?t=1601044657',
     summary:
-      "*On Steam sale ($8) until Oct. 19*\n\nI can't remember who said they were in the mood for some kind of shooter, but this is the game that came to mind.\n\nYou're playing a normal, cartoony shooter, where the guns are all farm vegetables, and a simple premise: Missed shots grow new guns.  This is in fact the only way to get new ammo as I understand it.  I'm not sure if each missed shot has a random chance of growing into a specific new gun, or if there's a way for me to more strategically _farm_ for my precious sniper rifle.\n\nI'll admit that even this description didn't really entice me, but the low price tag and rave reviews made me reconsider.  Check some of the videos out on their [steam page][0].",
+      "*On Steam sale ($8) until Oct. 19*\n\nI can't remember who said they were in the mood for some kind of shooter, but this is the game that came to mind.\n\nYou're playing a normal, cartoony shooter, where the guns are all farm vegetables, and a simple premise: Missed shots grow new guns.  This is in fact the only way to get new ammo as I understand it.  I'm not sure if each missed shot has a random chance of growing into a specific new gun, or if there's a way for me to more strategically _farm_ for my precious sniper rifle.\n\nI'll admit that even this description didn't really entice me, but the low price tag and rave reviews made me reconsider.  Check some of the videos out on their steam page.",
     pros: [
       Tags.OVERWHELMINGLY_POSITIVE,
       'Lighthearted, but still engaging',
