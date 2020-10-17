@@ -11,7 +11,7 @@ const lastGameKey = 'game';
 const lastGame = localStorage.getItem(lastGameKey);
 
 let activeGame: Game =
-  gamesJson.find((game) => game.title === lastGame) || gamesJson[0];
+  gamesJson.find((game) => game.title === lastGame) || $filteredGames[0];
 
 // console.debug(markdown(activeGame));
 </script>
@@ -71,7 +71,8 @@ let activeGame: Game =
 
     <a href={activeGame.storeUrl} target="_blank">↗
       {activeGame.storeUrl.includes('steampowered') ? 'Steam' : 'Store'}
-      page</a>
+      page
+    </a>
 
     {#if activeGame.videos?.length}
       <h3>Videos</h3>
