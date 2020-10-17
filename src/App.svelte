@@ -1,4 +1,6 @@
 <script lang="ts">
+import { flip } from 'svelte/animate';
+import { expoOut } from 'svelte/easing';
 import type { Game } from './types/Game';
 import markdown from './utils/markdown';
 import gamesJson from './stores/data/games';
@@ -29,8 +31,11 @@ let activeGame: Game =
     <nav>
       <ul>
         {#if $filteredGames}
-          {#each $filteredGames as game}
-            <li class:active={game === activeGame}>
+          {#each $filteredGames as game (game.title)}
+            <li
+              class:active={game === activeGame}
+              animate:flip={{ duration: 250, easing: expoOut }}
+            >
               <button
                 type="button"
                 on:click={() => ((activeGame = game), localStorage.setItem(lastGameKey, activeGame.title))}
