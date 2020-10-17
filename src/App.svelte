@@ -28,16 +28,20 @@ let activeGame: Game =
 
     <nav>
       <ul>
-        {#each $filteredGames as game}
-          <li class:active={game === activeGame}>
-            <button
-              type="button"
-              on:click={() => ((activeGame = game), localStorage.setItem(lastGameKey, activeGame.title))}
-            >
-              <img src={game.imageUrl} alt={game.title} title={game.title} />
-            </button>
-          </li>
-        {/each}
+        {#if $filteredGames}
+          {#each $filteredGames as game}
+            <li class:active={game === activeGame}>
+              <button
+                type="button"
+                on:click={() => ((activeGame = game), localStorage.setItem(lastGameKey, activeGame.title))}
+              >
+                <img src={game.imageUrl} alt={game.title} title={game.title} />
+              </button>
+            </li>
+          {/each}
+        {:else}
+          <li>All games hidden by filters</li>
+        {/if}
       </ul>
     </nav>
   </aside>
