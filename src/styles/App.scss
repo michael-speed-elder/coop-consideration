@@ -135,10 +135,6 @@ article {
     font-kerning: normal;
   }
 
-  .owners :global(span + span) {
-    margin-left: 1em;
-  }
-
   fieldset {
     $translucent-gray: rgba(gray, 0.333);
 
@@ -227,7 +223,7 @@ article {
         display: inline-block;
         background-image: linear-gradient(to right, $body-bg-color 10%, transparent);
         width: 4rem;
-        height: 215px;
+        height: 165px;
         pointer-events: none;
         position: fixed;
         left: 0;
@@ -265,25 +261,32 @@ article {
         }
       }
     }
+  }
 
-    article {
-      --max-column-width: auto;
+  article {
+    --max-column-width: auto;
 
-      height: auto;
-      overflow: auto;
-      padding-right: 3em;
-      padding-left: 3em;
-    }
+    height: auto;
+    overflow: auto;
+    padding-right: 3em;
+    padding-left: 3em;
   }
 }
 
-@media screen and (max-width: 440px) {
-  article .owners :global(span) {
-    display: list-item;
-    list-style-type: none;
+@media screen and (max-width: 500px) {
+  :global(html) {
+    font-size: 14px;
+  }
 
-    :global(+ span) {
-      margin-left: 0;
+  article {
+    padding: 0 8vw;
+
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    :global(p) {
+      font-size: 1.1rem;
     }
   }
 }

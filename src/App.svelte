@@ -3,7 +3,7 @@ import type { Game } from './types/Game';
 import { users } from './types/Game';
 import markdown from './utils/markdown';
 import gamesJson from './stores/data/games';
-import Owner from './Owner.svelte';
+import Owners from './Owners.svelte';
 import Input from './Input.svelte';
 
 const lastGameKey = 'game';
@@ -66,11 +66,7 @@ $: filteredGames = gamesJson.filter((game) =>
   <article>
     <h2>{activeGame.title}</h2>
 
-    <div class="owners">
-      {#each users as user}
-        <Owner name={user} owns={activeGame.owners?.includes(user)} />
-      {/each}
-    </div>
+    <Owners owners={activeGame.owners || []} />
 
     {#if activeGame.pros?.length}
       <fieldset>
