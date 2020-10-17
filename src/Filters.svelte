@@ -7,7 +7,6 @@ import filteredGames from './stores/filteredGames';
 
 let ownersWhitelist: Game['owners'] = [];
 let tagsWhitelist: Tags[] = [];
-let alphabetize = true;
 
 const filter = () => {
   filteredGames.update(() => {
@@ -20,9 +19,6 @@ const filter = () => {
         tagsWhitelist.some((tag) => [...game.pros, ...game.cons].includes(tag))
       );
     }
-
-    if (alphabetize)
-      filtered = filtered.sort((a, b) => (a.title > b.title ? 1 : -1));
 
     return filtered;
   });
@@ -98,14 +94,5 @@ details {
         {tag}
       </label>
     {/each}
-  </fieldset>
-
-  <fieldset>
-    <legend>sort</legend>
-
-    <label>
-      <input type="checkbox" bind:checked={alphabetize} />
-      alphabetize
-    </label>
   </fieldset>
 </details>
