@@ -1,10 +1,11 @@
 <script lang="ts">
 import type { Game } from './types/Game';
-import { users } from './types/Game';
 import markdown from './utils/markdown';
 import gamesJson from './stores/data/games';
+import filteredGames from './stores/filteredGames';
+
+import Filters from './Filters.svelte';
 import Owners from './Owners.svelte';
-import Input from './Input.svelte';
 
 const lastGameKey = 'game';
 const lastGame = localStorage.getItem(lastGameKey);
@@ -13,12 +14,6 @@ let activeGame: Game =
   gamesJson.find((game) => game.title === lastGame) || gamesJson[0];
 
 // console.debug(markdown(activeGame));
-let userFilter = [];
-
-let filteredGames: Game[];
-$: filteredGames = gamesJson.filter((game) =>
-  userFilter.every((user) => game.owners?.includes(user))
-);
 </script>
 
 <style lang="scss">
@@ -29,25 +24,11 @@ $: filteredGames = gamesJson.filter((game) =>
   <!--  -->
   <!-- game images -->
   <aside>
-    <details class="filters">
-      <summary>
-        filters
-        {#if filteredGames.length !== gamesJson.length}
-          <span class="subtle">(active)</span>
-        {/if}
-      </summary>
-      <fieldset class="user-filter">
-        {#each users as user}
-          <label>
-            <input type="checkbox" value={user} bind:group={userFilter} />
-            {user}
-          </label>
-        {/each}
-      </fieldset>
-    </details>
+    <Filters />
+
     <nav>
       <ul>
-        {#each filteredGames as game}
+        {#each $filteredGames as game}
           <li class:active={game === activeGame}>
             <button
               type="button"

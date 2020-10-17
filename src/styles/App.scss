@@ -39,33 +39,6 @@ aside {
   @extend %scroll-panel;
   @extend %hide-scrollbar;
 
-  details {
-    background-color: #505050;
-    font-size: 1rem;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-
-    summary {
-      cursor: pointer;
-      outline: none;
-
-      .subtle {
-        filter: opacity(0.6);
-      }
-    }
-
-    fieldset {
-      border-color: #999;
-    }
-
-    .user-filter {
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-
   ul {
     display: flex;
     flex-direction: column;
@@ -235,14 +208,6 @@ article {
         background-image: linear-gradient(to left, $body-bg-color 10%, transparent);
         right: 0;
         left: auto;
-      }
-
-      .filters {
-        left: 0;
-
-        summary {
-          padding: 0.5em 0;
-        }
       }
 
       ul {
