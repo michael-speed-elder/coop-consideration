@@ -7,6 +7,7 @@ import filteredGames from './stores/filteredGames';
 
 let ownersWhitelist: Game['owners'] = [];
 let tagsWhitelist: Tags[] = [];
+let filterText: string;
 
 const filter = () => {
   filteredGames.update(() => {
@@ -17,6 +18,12 @@ const filter = () => {
     if (tagsWhitelist.length) {
       filtered = filtered.filter((game) =>
         tagsWhitelist.some((tag) => [...game.pros, ...game.cons].includes(tag))
+      );
+    }
+
+    if (filterText) {
+      filtered = filtered.filter((game) =>
+        game.title.toLowerCase().includes(filterText.toLowerCase())
       );
     }
 
@@ -40,6 +47,7 @@ details {
     cursor: pointer;
     outline: none;
     padding: 0.5em 0;
+    user-select: none;
 
     .subtle {
       filter: opacity(0.6);
@@ -66,13 +74,15 @@ details {
 }
 </style>
 
-<details on:change={filter}>
+<details on:change={filter} on:input={filter}>
   <summary>
     filters
     {#if $filteredGames.length !== gamesJson.length}
       <span class="subtle">(active)</span>
     {/if}
   </summary>
+
+  <input type="text" bind:value={filterText} />
 
   <fieldset class="owner-filter">
     <legend>owners</legend>
